@@ -1,0 +1,34 @@
+header:
+  version: 12
+local_conf_header:
+  default: |
+    INHERIT += "extrausers"
+    # user setup
+    EXTRA_USERS_PARAMS = "usermod -p '' root;"
+    # distro config 
+    DISTRO_FEATURES:append = " systemd virtualization usrmerge acl xattr pam"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+    IMAGE_INSTALL:append = " podman"
+repos:
+  poky: 
+    url: https://git.yoctoproject.org/git/poky
+    branch: kirkstone
+    path: layers/poky
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    branch: kirkstone
+    path: layers/meta-openembedded
+    layers:
+      meta-oe:
+      meta-filesystems:
+      meta-python:
+      meta-networking: 
+  meta-virtualization:
+    url: git://git.yoctoproject.org/meta-virtualization
+    branch: kirkstone
+    path: layers/meta-virtualization 
