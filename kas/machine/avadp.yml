@@ -1,0 +1,19 @@
+header:
+  version: 12
+machine: ava
+repos:
+  meta-adlink-ampere:
+    url: https://github.com/ADLINK/meta-adlink-ampere.git
+    refspec: kirkstone
+    path: layers/meta-adlink-ampere
+    layers:
+      .:
+  meta-openembedded:
+    url: https://github.com/openembedded/meta-openembedded.git
+    refspec: kirkstone
+    path: layers/meta-openembedded
+    layers:
+      meta-oe:
+local_conf_header:
+  meta-at: |
+    IMAGE_INSTALL:append = " acpid efivar"
