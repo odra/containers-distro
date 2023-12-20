@@ -1,5 +1,5 @@
 header:
-  version: 12
+  version: 14
 local_conf_header:
   default: |
     INHERIT += "extrausers"
@@ -9,12 +9,20 @@ local_conf_header:
     DISTRO_FEATURES:append = " systemd virtualization usrmerge acl xattr pam"
     VIRTUAL-RUNTIME_init_manager = "systemd"
     VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-    IMAGE_INSTALL:append = " podman"
+    IMAGE_INSTALL:append = " bluechi podman"
+    PACKAGECONFIG[docker] = ""
+    # PREFERRED_VERSION_go:forcevariable = "1.20"
+    PV:pn-go = "1.20.10"
 repos:
+  # hack for local patch
   poky: 
     url: https://git.yoctoproject.org/git/poky
     branch: kirkstone
     path: layers/third-party/poky
+    patches:
+      golang-1.20:
+        repo: poky
+        path: ../../../patches/golang-1.20.patch
     layers:
       meta:
       meta-poky:
@@ -32,6 +40,10 @@ repos:
     url: git://git.yoctoproject.org/meta-virtualization
     branch: kirkstone
     path: layers/third-party/meta-virtualization
+    patches:
+      podman-4.8:
+        repo: meta-virtualization
+        path: ../../../patches/podman-4.8.patch
   bluechi-on-yocto:
     url: https://github.com/eclipse-bluechi/bluechi-on-yocto.git
     branch: main
